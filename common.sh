@@ -11,10 +11,11 @@ fi
 
 BACKUP_DIR="$HOME/.config/penrose-backup-$(date +%Y%m%d-%H%M%S)"
 
-# The suckless programs, each in its own repo. They are cloned into
-# ~/.local/src, built there and installed to /usr/local.
+# penrose and the suckless programs, each in its own repo. They are cloned
+# into ~/.local/src, built there and installed to /usr/local.
 SUCKLESS=(st dmenu slock dwmblocks)
 SUCKLESS_URL="https://github.com/tcvscheppingen"
+PENROSE_URL="https://github.com/tcvscheppingen/penrosewm.git"
 
 # Packages for Arch and Artix. Artix has all of them in its own repos except
 # xss-lock, which comes from Arch's [extra]. penrose reads the key names for
@@ -61,9 +62,8 @@ backup() {
 }
 
 # Back up the configs, scripts and sources this theme replaces, then copy the
-# dotfiles into ~/.config, ~/.local/bin and ~/.local/share, clone the
-# suckless programs into ~/.local/src and copy the penrose config into
-# ~/.local/src/penrose
+# dotfiles into ~/.config, ~/.local/bin and ~/.local/share, and clone the
+# suckless programs and the penrose config into ~/.local/src
 install_dotfiles() {
     for dir in x11 dunst gtk-3.0 nvim helix; do
         if [ -e "$HOME/.config/$dir" ]; then
@@ -102,8 +102,7 @@ install_dotfiles() {
         mkdir -p "$BACKUP_DIR/src"
         mv "$HOME/.local/src/penrose" "$BACKUP_DIR/src/"
     fi
-    mkdir -p "$HOME/.local/src/penrose"
-    cp -a "$REPO_DIR/Cargo.toml" "$REPO_DIR/Cargo.lock" "$REPO_DIR/src" "$HOME/.local/src/penrose/"
+    git clone "$PENROSE_URL" "$HOME/.local/src/penrose"
 
     fc-cache -f
 }
