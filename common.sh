@@ -9,7 +9,7 @@ if [ "$(id -u)" -eq 0 ]; then
     exit 1
 fi
 
-BACKUP_DIR="$HOME/.config/penrose-backup-$(date +%Y%m%d-%H%M%S)"
+BACKUP_DIR="$HOME/.config/penrosewm-backup-$(date +%Y%m%d-%H%M%S)"
 
 # penrose and the suckless programs, each in its own repo. They are cloned
 # into ~/.local/src, built there and installed to /usr/local.
@@ -98,11 +98,11 @@ install_dotfiles() {
         git clone "$SUCKLESS_URL/$prog.git" "$HOME/.local/src/$prog"
     done
 
-    if [ -e "$HOME/.local/src/penrose" ]; then
+    if [ -e "$HOME/.local/src/penrosewm" ]; then
         mkdir -p "$BACKUP_DIR/src"
-        mv "$HOME/.local/src/penrose" "$BACKUP_DIR/src/"
+        mv "$HOME/.local/src/penrosewm" "$BACKUP_DIR/src/"
     fi
-    git clone "$PENROSE_URL" "$HOME/.local/src/penrose"
+    git clone "$PENROSE_URL" "$HOME/.local/src/penrosewm"
 
     fc-cache -f
 }
@@ -134,8 +134,8 @@ install_rust() {
 build_penrose() {
     echo "Building penrose"
     if [ -e "$HOME/.cargo/env" ]; then . "$HOME/.cargo/env"; fi
-    cargo build --release --locked --manifest-path "$HOME/.local/src/penrose/Cargo.toml"
-    sudo install -Dm755 "$HOME/.local/src/penrose/target/release/penrose_config" /usr/local/bin/penrose
+    cargo build --release --locked --manifest-path "$HOME/.local/src/penrosewm/Cargo.toml"
+    sudo install -Dm755 "$HOME/.local/src/penrosewm/target/release/penrosewm" /usr/local/bin/penrosewm
 }
 
 # Print the login profile of the user's shell, or nothing for shells other
