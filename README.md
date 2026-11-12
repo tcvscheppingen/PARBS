@@ -20,6 +20,8 @@ Then reboot. The script:
 - clones [penrosewm](https://github.com/tcvscheppingen/penrosewm) to `~/.local/src/penrose`, builds it and installs it as `/usr/local/bin/penrose`
 - asks how to start penrose: on login on TTY1, or from a minimal LightDM login screen (`RICE_LOGIN=tty|dm|none` answers in advance)
 
+Starting penrose from your own `.desktop` file, for example from SDDM next to KDE? Let it run `~/.config/x11/xinitrc`, not `penrose`: xinitrc sets the wallpaper, puts the status bar scripts on `PATH` and starts dwmblocks, dunst and the rest, then penrose.
+
 Already have the packages? `./move-config-files.sh` only copies the dotfiles, clones penrose and the suckless programs and builds them. It needs `git`.
 
 Penrose doesn't start? Run `./check-install.sh`. It prints one line per check, `ok` or `PROBLEM` with the cause.
